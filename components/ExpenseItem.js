@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../constants/styles";
 import getFormattedDate from "../util/date";
@@ -24,43 +24,52 @@ const styles = StyleSheet.create({
     },
   },
   textBase: {
-    color: GlobalStyles.colors.primary50
+    color: GlobalStyles.colors.primary50,
   },
   description: {
     fontSize: 16,
     marginBottom: 4,
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
   priceContainer: {
-    paddingHorizontal:12,
-    paddingVertical:4,backgroundColor:'white',
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:4,minWidth:80
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    minWidth: 80,
   },
-  amount:{
-    color:GlobalStyles.colors.primary500,
-    fontWeight:'bold'
+  amount: {
+    color: GlobalStyles.colors.primary500,
+    fontWeight: "bold",
   },
-  whenPressed:{
-    opacity:0.75
-  }
+  whenPressed: {
+    opacity: 0.75,
+  },
 });
 
-export default function ExpenseItem({ description, amount, date }) {
-    const navigation=useNavigation();
-    function expensePressHandler(){
-navigation.navigate('ManageExpense')
-    }
+export default function ExpenseItem({ id, description, amount, date }) {
+  const navigation = useNavigation();
+  function expensePressHandler() {
+    navigation.navigate("ManageExpense", {
+      expenseId: id,
+    });
+  }
   return (
-    <Pressable onPress={expensePressHandler} style={({pressed})=>pressed?styles.whenPressed:null}>
+    <Pressable
+      onPress={expensePressHandler}
+      style={({ pressed }) => (pressed ? styles.whenPressed : null)}
+    >
       <View style={styles.expenseItem}>
         <View>
-          <Text style={[styles.description,styles.textBase]}>{description}</Text>
+          <Text style={[styles.description, styles.textBase]}>
+            {description}
+          </Text>
           <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
         </View>
         <View style={styles.priceContainer}>
-          <Text style={styles.amount} > {amount}</Text>
+          <Text style={styles.amount}> {amount}</Text>
         </View>
       </View>
     </Pressable>
